@@ -1,0 +1,505 @@
+<!--
+   Assignment: Week 7 Lab - JS for DailyTracker
+  Author: Shania Robertson
+  Date: 05/01/2022
+  Purpose: Allow the user to login, record new entrties, view their progress, and view information about the app.
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DailyTracker</title>
+
+    <!-- CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  </head>
+
+  <body onload="initializeKeypadButtons()">
+    <div id="center-wrapper">
+      <!--User Login Page-->
+      <div data-role="page" id="page-login">
+        <div data-role="header">
+          <h1>DailyTracker</h1>
+        </div>
+
+        <div data-role="main" class="ui-content">
+          <label for="data-password">Password:</label>
+          <input type="password" id="data-password" />
+
+          <div id="keypad">
+            <div data-role="controlgroup" data-type="horizontal">
+              <a data-role="button">7</a>
+              <a data-role="button">8</a>
+              <a data-role="button">9</a>
+            </div>
+
+            <div data-role="controlgroup" data-type="horizontal">
+              <a data-role="button">4</a>
+              <a data-role="button">5</a>
+              <a data-role="button">6</a>
+            </div>
+
+            <div data-role="controlgroup" data-type="horizontal">
+              <a data-role="button">1</a>
+              <a data-role="button">2</a>
+              <a data-role="button">3</a>
+            </div>
+
+            <div data-role="controlgroup" data-type="horizontal">
+              <a data-role="button">0</a>
+              <a data-role="button" data-icon="delete">del</a>
+            </div>
+          </div>
+
+          <div data-role="controlgroup">
+            <a
+              href="#page-disclaimer"
+              data-role="button"
+              id="btn-enter-password"
+            >
+              Enter</a
+            >
+            <a href="#page-about" data-role="button">About</a>
+          </div>
+        </div>
+      </div>
+
+      <!--About Page-->
+      <div data-role="page" id="page-about">
+        <div data-role="header">
+          <a href="../" data-role="button" data-icon="bars" data-iconpos="left"
+            >Home</a
+          >
+          <h1>Info</h1>
+          <a
+            href="../"
+            data-rel="back"
+            data-role="button"
+            data-icon="back"
+            data-iconpos="left"
+            >Back</a
+          >
+        </div>
+
+        <div data-role="main" class="ui-content">
+          <p>
+            Is keeping a diary or a bullet journal too much work for you, but
+            you'd still like to record how your day went? DailyTracker can help!
+          </p>
+          <p>
+            DailyTracker is an app that will let you record your dailies. You
+            can record the hours you've slept, the activities you did, and keep
+            track of your moods. You can even set a long-term and short-term
+            goal for yourself, to help keep yourself on track.
+          </p>
+          <p>
+            DailyTracker will use your recorded results, and analyze how you're
+            doing over time. You can see a graph of how well you've been
+            sleeping each night, and how often you've recorded activities and
+            moods. DailyTracker will take this information, and be a support
+            system for you, encouraging you to keep up with the good work
+            (really!).
+          </p>
+        </div>
+      </div>
+
+      <!--Disclaimer Page-->
+      <div data-role="page" id="page-disclaimer" data-close-btn="none">
+        <div data-role="header">
+          <h1>Disclaimer</h1>
+        </div>
+
+        <div data-role="main" class="ui-content">
+          <h1>Disclaimer</h1>
+          <p>
+            DailyTracker should be used to record and track daily habits, and
+            encourage good habits.
+          </p>
+          <p>
+            DailyTracker is not responsible or liable in any manner for the
+            information and content posted on our website or in connection with
+            our services. DailyTracker is not responsible or liable for the
+            personal misuse of the application
+          </p>
+
+          <a
+            href="#page-user-info"
+            id="btn-notice-yes"
+            data-role="button"
+            data-icon="forward"
+            data-mini="false"
+            >Yes</a
+          >
+        </div>
+      </div>
+
+      <!--User Information Page/Form-->
+      <div data-role="page" id="page-user-info">
+        <div data-role="header">
+          <a
+            href="#page-menu"
+            data-role="button"
+            data-icon="bars"
+            data-iconpos="left"
+            data-inline="true"
+            >Menu</a
+          >
+          <a
+            href="#page-about"
+            data-role="button"
+            data-icon="info"
+            data-iconpos="right"
+            data-inline="true"
+            >Info</a
+          >
+          <h1>User Information</h1>
+        </div>
+
+        <div data-role="main" class="ui-content">
+          <form id="form-user-info">
+            <div data-role="fieldcontain">
+              <label for="data-first-name">First Name: </label>
+              <input
+                type="text"
+                placeholder="First Name"
+                data-mini="false"
+                id="data-first-name"
+                value=""
+                required
+              />
+            </div>
+
+            <div data-role="fieldcontain">
+              <label for="data-last-name">Last Name: </label>
+              <input
+                type="text"
+                placeholder="Last Name"
+                data-mini="false"
+                id="data-last-name"
+                value=""
+                required
+              />
+            </div>
+
+            <div data-role="fieldcontain">
+              <label for="data-new-password">Edit Password: </label>
+              <input
+                type="password"
+                placeholder="New Password"
+                data-mini="false"
+                id="data-new-password"
+                value=""
+                required
+              />
+            </div>
+
+            <div data-role="fieldcontain">
+              <label for="data-long-term">Long-Term Goal: </label>
+              <input
+                type="text"
+                placeholder="Ex: Average 8 hours of sleep per night"
+                data-mini="false"
+                id="data-long-term"
+                value=""
+                required
+              />
+            </div>
+
+            <div data-role="fieldcontain">
+              <label for="data-short-term">Short-Term Goal: </label>
+              <input
+                type="text"
+                placeholder="Ex: Study 3 days this week"
+                data-mini="false"
+                id="data-short-term"
+                value=""
+                required
+              />
+            </div>
+
+            <input
+              type="submit"
+              id="btn-user-update"
+              data-icon="check"
+              data-iconpos="left"
+              value="Update"
+              data-inline="true"
+            />
+          </form>
+        </div>
+      </div>
+
+      <!--Menu Page-->
+      <div data-role="page" id="page-menu">
+        <div data-role="header">
+          <a
+            href="#"
+            data-role="button"
+            data-icon="bars"
+            data-iconpos="left"
+            data-inline="true"
+            >Menu</a
+          >
+          <a
+            href="#page-about"
+            data-role="button"
+            data-icon="info"
+            data-iconpos="right"
+            data-inline="true"
+            >About</a
+          >
+          <h1>DailyTracker</h1>
+        </div>
+
+        <div data-role="main" class="ui-content">
+          <div data-role="controlgroup">
+            <a href="#page-user-info" data-role="button">User Info</a>
+            <a href="#page-records" data-role="button">Entries</a>
+            <a href="#page-graph" data-role="button">Sleep Pattern</a>
+            <a href="#page-advice" data-role="button">Encouragement</a>
+          </div>
+        </div>
+      </div>
+
+      <!--Records Page-->
+      <div data-role="page" id="page-records">
+        <div data-role="header">
+          <a
+            href="#page-menu"
+            data-role="button"
+            data-icon="bars"
+            data-iconpos="left"
+            data-inline="true"
+            >Menu</a
+          >
+          <a
+            href="#page-about"
+            data-role="button"
+            data-icon="info"
+            data-iconpos="right"
+            data-inline="true"
+            >Info</a
+          >
+          <h1>Entries</h1>
+        </div>
+
+        <div data-role="main" class="ui-content">
+          <!--User's Information Section-->
+          <div data-role="fieldcontain" id="div-user-section"></div>
+
+          <h2>Your Entries</h2>
+
+          <div data-role="fieldcontain">
+            <!--Records Table-->
+            <!-- TODO: Table will fill dynamically like previous project. Headings are a placeholder -->
+            <table
+              id="tbl-records"
+              class="ui-responsive table-stripe"
+              data-mode="reflow"
+            >
+              <tr>
+                <th>Date</th>
+                <th>Hours Slept</th>
+                <th>Activities</th>
+                <th>Moods</th>
+              </tr>
+            </table>
+          </div>
+
+          <div data-role="fieldcontain">
+            <a
+              href="#page-record-form"
+              id="btn-add-record"
+              data-role="button"
+              data-icon="plus"
+              >Add New Entry</a
+            >
+            <a
+              href="#"
+              data-role="button"
+              id="btn-clear-history"
+              data-icon="delete"
+              >Clear History</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <!--Record Form Page-->
+      <div data-role="page" id="page-record-form">
+        <div data-role="header">
+          <a
+            href="#page-menu"
+            data-role="button"
+            data-icon="bars"
+            data-iconpos="left"
+            data-inline="true"
+            >Menu</a
+          >
+          <a
+            href="#page-about"
+            data-role="button"
+            data-icon="info"
+            data-iconpos="right"
+            data-inline="true"
+            >Info</a
+          >
+          <h1>Record Form</h1>
+        </div>
+
+        <div data-role="main" class="ui-content">
+          <form id="form-record">
+            <div data-role="fieldcontain">
+              <!-- Date -->
+              <div data-role="fieldcontain">
+                <label for="data-date">Date: </label>
+                <input type="date" data-mini="false" id="data-date" value="" />
+              </div>
+
+              <!-- Sleep -->
+              <div data-role="fieldcontain">
+                <label for="data-sleep"> Hours Slept:</label>
+                <input
+                  type="number"
+                  step="1"
+                  placeholder="0"
+                  data-mini="false"
+                  id="data-sleep"
+                  value=""
+                />
+              </div>
+
+              <!-- Study -->
+              <div data-role="fieldcontain">
+                <label for="data-study"> Did you study today?: </label>
+                <div data-role="controlgroup">
+                  <select name="study" id="data-study">
+                    <option value="">Choose One</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Mood -->
+              <div data-role="fieldcontain">
+                <label for="data-mood"> How did you feel today?: </label>
+                <div data-role="controlgroup">
+                  <select name="mood" id="data-mood">
+                    <option value="">Choose One</option>
+                    <option value="happy">Happy</option>
+                    <option value="sad">Sad</option>
+                    <option value="proud">Proud</option>
+                    <option value="tired">Tired</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <input
+              type="submit"
+              data-inline="true"
+              id="btn-submit-record"
+              data-icon="check"
+              value="Submit"
+            />
+          </form>
+        </div>
+      </div>
+
+      <!--Graph Page-->
+      <div data-role="page" id="page-graph">
+        <div data-role="header">
+          <a
+            href="#page-menu"
+            data-role="button"
+            data-icon="bars"
+            data-iconpos="left"
+            data-inline="true"
+            >Menu</a
+          >
+          <a
+            href="#page-about"
+            data-role="button"
+            data-icon="info"
+            data-iconpos="right"
+            data-inline="true"
+            >Info</a
+          >
+          <h1>Sleep Pattern</h1>
+        </div>
+
+        <div data-role="main" class="ui-content">
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h2 class="panel-title">Hours of Sleep per Night</h2>
+            </div>
+
+            <div class="panel-body">
+              <canvas id="canvas-graph" width="500" height="500"></canvas>
+            </div>
+          </div>
+          <!-- TODO: Show totals of each activity/mood recorded as well -->
+        </div>
+      </div>
+
+      <!--Advice Page-->
+      <div data-role="page" id="page-advice">
+        <div data-role="header">
+          <a
+            href="#page-menu"
+            data-role="button"
+            data-icon="bars"
+            data-iconpos="left"
+            data-inline="true"
+            >Menu</a
+          >
+          <a
+            href="#page-about"
+            data-role="button"
+            data-icon="info"
+            data-iconpos="right"
+            data-inline="true"
+            >Info</a
+          >
+          <h1>Encouragement</h1>
+        </div>
+
+        <!-- TODO: Include encouragements based on past entries -->
+        <div data-role="main" class="ui-content">
+          <canvas id="canvas-advice" width="550" height="550"></canvas>
+        </div>
+      </div>
+
+      <!-- Functionality JavaScript files -->
+      <script src="scripts/login.js"></script>
+      <script src="scripts/page-loader.js"></script>
+      <script src="scripts/records.js"></script>
+      <script src="scripts/user-form.js"></script>
+      <script src="scripts/graph.js"></script>
+      <script src="scripts/advice.js"></script>
+
+      <!-- RGraph JavaScript files -->
+      <script src="scripts/RGraph/RGraph.common.core.js"></script>
+      <script src="scripts/RGraph/RGraph.common.effects.js"></script>
+      <script src="scripts/RGraph/RGraph.cornergauge.js"></script>
+      <script src="scripts/RGraph/RGraph.hprogress.js"></script>
+      <script src="scripts/RGraph/RGraph.line.js"></script>
+    </div>
+  </body>
+</html>

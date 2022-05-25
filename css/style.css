@@ -1,0 +1,27 @@
+/*
+  Assignment: Week 7 Lab - JS for DailyTracker
+  Author: Shania Robertson
+  Date: 05/01/2022
+*/
+
+#center-wrapper,
+table,
+th,
+tr {
+  text-align: center;
+  margin: 0 auto;
+}
+
+table,
+th,
+tr {
+  border: 1px solid;
+  border-collapse: collapse;
+  padding: 0.5em;
+}
+
+canvas {
+  border: 1px solid black;
+  margin: auto;
+  display: block;
+}
